@@ -323,7 +323,29 @@ function lockAutoInput()
 		}		
 	return false;
 	}
-	
+
+// check that it is a valid characters in other european languages - not only a..z.
+function isLetter(c) 
+	{
+	return c.toLowerCase() != c.toUpperCase();
+	}
+// check that the symbols are valid
+function checkValidName(name)
+	{
+	for (var c of name)
+		{
+		if ("0123456789 -.@".includes(c))	// allow these special characters if used with other representations.
+			{
+			continue;
+			}
+		if (!isLetter(c))
+			{
+			return c;
+			}
+		}
+	return "";
+	}
+
 function add()
 {
 	// reset background colours of UI elements 		
@@ -331,6 +353,7 @@ function add()
 	document.forms["encodeform"]["name"].style.backgroundColor = '';
 	document.forms["encodeform"]["ratio"].style.backgroundColor = '';
 	document.forms["encodeform"]["N"].style.backgroundColor = '';
+	document.forms["encodeform"]["passwordid"].style.backgroundColor = '';	
 	var jsn = document.getElementById("listid").value;
 	var IDs = new Map();
 	
@@ -354,15 +377,27 @@ function add()
 		document.forms["encodeform"]["name"].style.backgroundColor = 'pink';		
 		return false;
 		}
+	// check valid name
+	var error = checkValidName(name);
+	if (error.length > 0)
+		{
+		document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">Invalid character \""+error+"\" in name.</p>";
+		document.forms["encodeform"]["name"].style.backgroundColor = 'pink';		
+		return false;			
+		}
 	var participants = document.forms["encodeform"]["N"].value;
 	var ratio = document.forms["encodeform"]["ratio"].value;
 	var phonetic = document.forms["encodeform"]["phonetic"].checked;
+	var passwordIN = document.forms["encodeform"]["password"].value;
+	passwordIN = passwordIN.hashCode();
+	var passwordSTORED = passwordIN;
 	
 	if (!!jsn)
 		{
 		participants = IDs.get("particpants");
 		ratio = IDs.get("coding-ratio");
 		phonetic = IDs.get("phonetic-coding");	
+		passwordSTORED = IDs.get("password");		
 		}
 	else
 		{				
@@ -371,14 +406,30 @@ function add()
 			document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">Please input the maximum number of participants.</p>";
 			document.forms["encodeform"]["N"].style.backgroundColor = 'pink';		
 			return false;
-			}			
+			}	
+			
 		IDs.set("particpants",participants);
 		IDs.set("coding-ratio",ratio);
 		IDs.set("phonetic-coding",phonetic);
+		IDs.set("password",passwordIN);
 		}
+	// check password match
+
+	if (passwordSTORED !== passwordIN)
+		{
+		document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">Incorrect password.</p>";
+		document.getElementById("passwordid").style.backgroundColor = 'pink';		
+		return false;		
+		}
+	// check if phonetic coding
 	if (phonetic)
 		{
 		name = encodePhonetic(name);
+		}
+	// add password salt
+	if (passwordIN !== 0)
+		{
+		name += passwordIN;
 		}
 		
 	var L = participants*ratio;
@@ -388,7 +439,8 @@ function add()
 	var id = findEncoding(IDs, name, L);
 	
 	// provide feedback to user	
-	document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">New particpant id: <b>"+id+"</b>. Remember to copy and store the updated list.</p>";		
+	var anonymityEstimate = "<p><b>WARNING</b>: The population these participants are recruited from should comprise more than <b>"+(5*L)+"</b> individuals to ensure a mimum level of anonymity (k-anonymity = 5). Population could here refer to a country, region, particular institution, or similar, where there are publicly available list of names such as phone directories. Note that this is a probabilistic estimate only.<p>";
+	document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">New particpant id: <b>"+id+"</b>. Remember to copy and store the updated list.</p>"+anonymityEstimate;		
 	// set json background colour to indicate change		
 	document.getElementById("listid").style.backgroundColor='lightpink';
 	
@@ -407,6 +459,8 @@ function lookup()
 	document.forms["encodeform"]["name"].style.backgroundColor = '';
 	document.forms["encodeform"]["ratio"].style.backgroundColor = '';
 	document.forms["encodeform"]["N"].style.backgroundColor = '';
+	document.forms["encodeform"]["passwordid"].style.backgroundColor = '';	
+	
 	var jsn = document.getElementById("listid").value;
 	var IDs = new Map();
 	
@@ -430,20 +484,43 @@ function lookup()
 		document.forms["encodeform"]["name"].style.backgroundColor = 'pink';		
 		return false;
 		}
+	var error = checkValidName(name);
+	if (error.length > 0)
+		{
+		document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">Invalid character \""+error+"\" in name.</p>";
+		document.forms["encodeform"]["name"].style.backgroundColor = 'pink';		
+		return false;			
+		}		
 	var participants = document.forms["encodeform"]["N"].value;
 	var ratio = document.forms["encodeform"]["ratio"].value;
 	var phonetic = document.forms["encodeform"]["phonetic"].checked;
+	var passwordIN = document.forms["encodeform"]["password"].value;
+	passwordIN = passwordIN.hashCode();	
+	var passwordSTORED = "";
 	
 	if (!!jsn)
 		{
 		participants = IDs.get("particpants");
 		ratio = IDs.get("coding-ratio");
 		phonetic = IDs.get("phonetic-coding");	
+		passwordSTORED = IDs.get("password");
 		}
-
+	// check password match
+	if (passwordSTORED !== passwordIN)
+		{
+		document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">Incorrect password.</p>";
+		document.getElementById("passwordid").style.backgroundColor = 'pink';			
+		return false;		
+		}
+		
 	if (phonetic)
 		{
 		name = encodePhonetic(name);
+		}
+	// add password salt
+	if (passwordIN !== 0)
+		{
+		name += passwordIN;
 		}
 		
 	var L = participants*ratio;
@@ -451,7 +528,15 @@ function lookup()
 	var existingID = findEncoding(IDs, name, L)
 	
 	// provide feedback to user	
-	document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">Particpant id: <b>"+existingID+"</b>.</p>";		
+	var anonymityEstimate = "<p><b>WARNING</b>: The population these participants are recruited from should comprise more than <b>"+(5*L)+"</b> individuals to ensure a mimum level of anonymity (k-anonymity = 5). Population could here refer to a country, region, particular institution, or similar, where there are publicly available list of names such as phone directories. Note that this is a probabilistic estimate only.<p>";
+	if (IDs.has(existingID))
+		{
+		document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">Particpant id: <b>"+existingID+"</b>.</p>"+ anonymityEstimate;	
+		}
+	else
+		{
+		document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">Particpant not found (id="+existingID+").</p>"+ anonymityEstimate;	
+		}		
 	// set json background colour to indicate change		
 	document.getElementById("listid").style.backgroundColor='';
 	

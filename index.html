@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<! -- By Frode Eika Sandnes, Oslo Metropolitan University, Oslo, Norway, May 2021 -->
+<!-- By Frode Eika Sandnes, Oslo Metropolitan University, Oslo, Norway, May 2021 -->
 
 <head>
     <meta charset="utf-8">
@@ -14,15 +14,14 @@
 <html>
 	<body onload="loadSalts()">
 		<h1>CANDIDATE: Anonymous linking of participants on-the-fly</h1>
- <! -- 		
-		by Frode Eika Sandnes
- -->
  
 		<p></p>
 		<p></p>
  
 		<form name="encodeform">
-			<h2>Lookup ID for participant</h2>
+			<h2>Lookup / add participant ID</h2>
+			<p>Note that the current implementation only works with names transcribed using Latin characters.</p>
+			<p>Each name must be unique. Uncheck <em>Phonetic coding</em> if the tool is used with other other symbols and/or no-name entiities (Switching off phonetic coding will disable the input error tolerance mechanisms).</p>
 			<ul>
 				<li>
 				    <label for="nameid"><span>Participant</span></label>
@@ -38,8 +37,8 @@
 					<input type="text" id="Nid" name="N" size="3" onfocusout="lockAutoInput()" /> 					
 				</li>
 				<li>
-					<label for="ratioid" id="L2"><span>Coding ratio</span></label>				
-					<select name="ratio" id="ratioid" onfocusout="lockAutoInput()" >
+					<label style="visibility: hidden" for="ratioid" id="L2"><span>Coding ratio</span></label>				
+					<select style="visibility: hidden" name="ratio" id="ratioid" onfocusout="lockAutoInput()" >
 					  <option value="1">1</option>
 					  <option value="2">2</option>
 					  <option value="3">3</option>					  
@@ -55,10 +54,15 @@
 					  <option value="100">100</option>					  
 					</select>
 				</li>
-					<li>
+				<li>
 					<label for="phoneticid" id="L3"><span>Phonetic coding</span></label>	
 					<input type="checkbox" id="phoneticid" name="phonetic" value="phonetic" onfocusout="lockAutoInput()" checked/> 					
-				</li>			
+				</li>	
+				<p/>
+				<li>
+					<label for="passwordid"><span>Password (optional) </span></label>	
+					<input type="password" id="passwordid" name="password" size="20"  /> 					
+				</li>
 					<p id="participantid"></p>				
 					<p>
 						<button type="submit" id="lookupID" onClick="return lookup()" disabled>Lookup</button> 
