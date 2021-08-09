@@ -17,4 +17,5 @@ The browser tool consists of:
 
 The code for experimentation consists of:
 1) CANDIDATE.java - a javafile with various routines to conduct experiments with CANDIDATE.
+2) names-longlist-unique.txt - a textfiles with list of names adapted from the study Ioannidis JP, Baas J, Klavans R, Boyack KW. A standardized citation metrics author database annotated for scientific field. PLoS biology, 2019; 17(8): e3000384.
 
