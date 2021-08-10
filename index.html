@@ -13,75 +13,72 @@
 
 <html>
 	<body onload="loadSalts()">
-		<h1>CANDIDATE: Anonymous linking of participants on-the-fly</h1>
- 
-		<p></p>
-		<p></p>
- 
-		<form name="encodeform">
-			<h2>Lookup / add participant ID</h2>
-			<p>Note that the current implementation only works with names transcribed using Latin characters.</p>
-			<p>Each name must be unique. Uncheck <em>Phonetic coding</em> if the tool is used with other other symbols and/or no-name entiities (Switching off phonetic coding will disable the input error tolerance mechanisms).</p>
-			<ul>
-				<li>
-				    <label for="nameid"><span>Participant</span></label>
-					<input type="text" id="nameid" name="name" size="20" /> 
-				</li>
-				<li>
-				<label for="listid" id="L0"><span>ID-list (paste/copy JSON snipplet here)</span></label>	
-				<textarea id="listid" name="namelist" rows="5" cols="20"  onfocusout="lockManualInput()">
-</textarea>
-				</li>
-				<li>
-					<label for="Nid" id="L1"><span>Max participants</span></label>	
-					<input type="text" id="Nid" name="N" size="3" onfocusout="lockAutoInput()" /> 					
-				</li>
-				<li>
-					<label style="visibility: hidden" for="ratioid" id="L2"><span>Coding ratio</span></label>				
-					<select style="visibility: hidden" name="ratio" id="ratioid" onfocusout="lockAutoInput()" >
-					  <option value="1">1</option>
-					  <option value="2">2</option>
-					  <option value="3">3</option>					  
-					  <option value="4">4</option>					  
-					  <option value="5">5</option>
-					  <option value="6">7</option>					  
-					  <option value="7">7</option>
-					  <option value="8">8</option>					  
-					  <option value="9">9</option>
-					  <option selected="selected" value="10">10</option>
-					  <option value="20">20</option>
-					  <option value="50">50</option>
-					  <option value="100">100</option>					  
-					</select>
-				</li>
-				<li>
-					<label for="phoneticid" id="L3"><span>Phonetic coding</span></label>	
-					<input type="checkbox" id="phoneticid" name="phonetic" value="phonetic" onfocusout="lockAutoInput()" checked/> 					
-				</li>	
-				<p/>
-				<li>
-					<label for="passwordid"><span>Password (optional) </span></label>	
-					<input type="password" id="passwordid" name="password" size="20"  /> 					
-				</li>
-					<p id="participantid"></p>				
-					<p>
-						<button type="submit" id="lookupID" onClick="return lookup()" disabled>Lookup</button> 
-					   <button type="submit" onClick="return add()">Add</button> 
-					</p>
-			</ul>
-		</form>
-		
-		<form name="analyseform" onsubmit="return analyse()">
-		
-		<div id="myPopup" class="popup">
-			<p>Some text in the Modal..</p>
-		</div>
 
-		
-		<p id="resultid"></p>		
+		<div class="container">
+				<h1>CANDIDATE: Anonymous linking of participants on-the-fly</h1>
+		</div> 
 
- 		    <p>
-				<textarea id="slistid" name="saltlist" rows="5" cols="15" hidden>
+
+		<div class="container">
+
+			<div class="form">
+
+						<form name="encodeform">
+							<h2>Lookup / add participant ID</h2>
+							<ul>
+								<li>
+									<label for="nameid"><span>Participant</span></label>
+									<input type="text" id="nameid" name="name" size="20" /> 
+								</li>
+								<li>
+								<label for="listid" id="L0"><span>ID-list (paste/copy JSON snipplet here)</span></label>	
+								<textarea id="listid" name="namelist" rows="5" cols="20"  onfocusout="lockManualInput()"></textarea>
+								</li>
+								<li>
+									<label for="Nid" id="L1"><span>Max participants</span></label>	
+									<input type="text" id="Nid" name="N" size="3" onfocusout="lockAutoInput()" /> 					
+								</li>
+								<li>
+									<label style="visibility: hidden" for="ratioid" id="L2"><span>Coding ratio</span></label>				
+									<select style="visibility: hidden" name="ratio" id="ratioid" onfocusout="lockAutoInput()" >
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>					  
+									<option value="4">4</option>					  
+									<option value="5">5</option>
+									<option value="6">7</option>					  
+									<option value="7">7</option>
+									<option value="8">8</option>					  
+									<option value="9">9</option>
+									<option selected="selected" value="10">10</option>
+									<option value="20">20</option>
+									<option value="50">50</option>
+									<option value="100">100</option>					  
+									</select>
+								</li>
+								<li>
+									<label for="phoneticid" id="L3"><span>Phonetic coding</span></label>	
+									<input type="checkbox" id="phoneticid" name="phonetic" value="phonetic" onfocusout="lockAutoInput()" checked/> 					
+								</li>	
+								<p/>
+								<li>
+									<label for="passwordid"><span>Password (optional) </span></label>	
+									<input type="password" id="passwordid" name="password" size="20"  /> 					
+								</li>
+									<p id="participantid"></p>				
+									<p>
+										<button type="submit" id="lookupID" onClick="return lookup()" disabled>Lookup</button> 
+									<button type="submit" onClick="return add()">Add</button> 
+									</p>
+							</ul>
+						</form>
+						
+						<form name="analyseform" onsubmit="return analyse()">
+						
+						<p id="resultid"></p>		
+
+							<p>
+								<textarea id="slistid" name="saltlist" rows="5" cols="15" hidden>
 a
 abandon
 ability
@@ -3082,7 +3079,16 @@ yours
 yourself
 youth
 zone</textarea>
-			</p>
-		</form>		
+				</form>
+			</div>	
+			
+			<div class="info">
+				<h2>About the tool</h2>
+				<p>By Frode Eika Sandnes, Oslo Metropolitan University, August, 2021.</p>
+				<p>Note that the current implementation only works with names transcribed using Latin characters.</p>
+				<p>Each name must be unique. Uncheck <em>Phonetic coding</em> if the tool is used with other other symbols and/or no-name entiities (Switching off phonetic coding will disable the input error tolerance mechanisms).</p>	
+				<p>Details are documented in: Frode Eika Sandnes, CANDIDATE: A tool for generating anonymous participant-linking IDs for multi-session studies. Manuscript submitted for review, 2021.</p>
+			</div>		
+		</div>
 	</body>
 </html>

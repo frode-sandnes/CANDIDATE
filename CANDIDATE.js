@@ -439,7 +439,7 @@ function add()
 	var id = findEncoding(IDs, name, L);
 	
 	// provide feedback to user	
-	var anonymityEstimate = "<p><b>WARNING</b>: The population these participants are recruited from should comprise more than <b>"+(5*L)+"</b> individuals to ensure a mimum level of anonymity (k-anonymity = 5). Population could here refer to a country, region, particular institution, or similar, where there are publicly available list of names such as phone directories. Note that this is a probabilistic estimate only.<p>";
+	var anonymityEstimate = "<p><b>WARNING</b>: The population these participants are recruited from should comprise more than <b>"+(5*L).toLocaleString()+"</b> individuals to ensure a mimum level of anonymity (k-anonymity = 5). Population could here refer to a country, region, particular institution, or similar, where there are publicly available list of names such as phone directories. Note that this is a probabilistic estimate only.<p>";
 	document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">New particpant id: <b>"+id+"</b>. Remember to copy and store the updated list.</p>"+anonymityEstimate;		
 	// set json background colour to indicate change		
 	document.getElementById("listid").style.backgroundColor='lightpink';
@@ -528,7 +528,7 @@ function lookup()
 	var existingID = findEncoding(IDs, name, L)
 	
 	// provide feedback to user	
-	var anonymityEstimate = "<p><b>WARNING</b>: The population these participants are recruited from should comprise more than <b>"+(5*L)+"</b> individuals to ensure a mimum level of anonymity (k-anonymity = 5). Population could here refer to a country, region, particular institution, or similar, where there are publicly available list of names such as phone directories. Note that this is a probabilistic estimate only.<p>";
+	var anonymityEstimate = "<p><b>WARNING</b>: The population these participants are recruited from should comprise more than <b>"+(5*L).toLocaleString()+"</b> individuals to ensure a mimum level of anonymity (k-anonymity = 5). Population could here refer to a country, region, particular institution, or similar, where there are publicly available list of names such as phone directories. Note that this is a probabilistic estimate only.<p>";
 	if (IDs.has(existingID))
 		{
 		document.getElementById("participantid").innerHTML = "<p style=\"color:rgb(255,0,0);\">Particpant id: <b>"+existingID+"</b>.</p>"+ anonymityEstimate;	
