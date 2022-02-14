@@ -4,7 +4,7 @@ Anonymous linking of participants on-the-fly
 This repository contains resrourses associated with the CANDIDATE linking procedure.
 
 The resources include
-1) The brower tool implemented in javascript. A live version is available at https://www.cs.oslomet.no/~frodes/CANDIDATE/
+1) The brower tool implemented in javascript. A live version is available at https://frode-sandnes.github.io/CANDIDATE/
 2) A java implementation for testing and evaluation purposes (research-ware).
 
 
